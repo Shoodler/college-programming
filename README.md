@@ -1,7 +1,1 @@
-Repo for all college labs
-
-Second Test Update
-
-Up 3
-
-up for the 4th time
+Repo Containing all Sem 3 Code for future reference and tracking

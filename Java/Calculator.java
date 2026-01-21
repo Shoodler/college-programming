@@ -72,24 +72,36 @@ public class Calculator{
             System.out.flush();
 
 
-            switch(choice){
-                case 1 -> System.out.println("Sum: " + user.addNums(user.n1, user.n2));
-                
-                case 2 -> System.out.println("Diff: " + user.subNums(user.n1, user.n2));
-                
-                case 3 -> System.out.println("Product: " + user.prodNums(user.n1, user.n2));
+            switch (choice) {
+                case 1:
+                    System.out.println("Sum: " + user.addNums(user.n1, user.n2));
+                    break;
 
-                case 4 -> System.out.println("Quotient: " + user.divNums(user.n1, user.n2));
+                case 2:
+                    System.out.println("Diff: " + user.subNums(user.n1, user.n2));
+                    break;
 
-                case 5 -> System.out.println("Remainder: " + user.modNums(user.n1, user.n2));
+                case 3:
+                    System.out.println("Product: " + user.prodNums(user.n1, user.n2));
+                    break;
 
-                case 6 -> {
+                case 4:
+                    System.out.println("Quotient: " + user.divNums(user.n1, user.n2));
+                    break;
+
+                case 5:
+                    System.out.println("Remainder: " + user.modNums(user.n1, user.n2));
+                    break;
+
+                case 6:
                     System.out.println("Thank you for using Calculator!");
                     exit = true;
-                }
+                    break;
 
-                default -> System.out.println("Invalid choice. Try again!");
+                default:
+                    System.out.println("Invalid choice. Try again!");
             }
+
         }
         scan.close();
     }

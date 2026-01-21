@@ -25,5 +25,6 @@ class ArrExp{
         if(!valid){
             System.err.println("You entered the wrong month");
         }
+        read.close();
     }
 }

@@ -82,15 +82,22 @@ class VehicleSpecs{
     }
 
     private String getFuelType() {
-        return switch (fuelType) {
-            case 'P' -> "Petrol";
-            case 'D' -> "Diesel";
-            case 'E' -> "Electric";
-            case 'M' -> "Man Power";
-            case 'F' -> "Food";
-            default -> "Unknown";
-        };
+    switch (fuelType) {
+        case 'P':
+            return "Petrol";
+        case 'D':
+            return "Diesel";
+        case 'E':
+            return "Electric";
+        case 'M':
+            return "Man Power";
+        case 'F':
+            return "Food";
+        default:
+            return "Unknown";
     }
+}
+
 }
 
 class VehicleMethods extends VehicleSpecs{
