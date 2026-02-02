@@ -4,11 +4,11 @@ A clean repository containing all programs and coursework for the 4th semester o
 
 ## Repository Structure
 
-`Plaintext
+```Plaintext
 .
 ├── Java/               # OOPs, Collections, and Multi-threading
 └── Machine Learning/    # Supervised & Unsupervised Learning (Jupyter Notebooks)
-`
+```
 
 ---
 
