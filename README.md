@@ -1,6 +1,6 @@
 # Sem 4:
 
-A clean repository containing all programs and coursework for the 4th semester of my Bachelor of Technology in AI & Machine Learning.
+A clean repository containing all programs and coursework for the 4th semester of my B.Tech in AI & Machine Learning.
 
 ## Repository Structure
 
