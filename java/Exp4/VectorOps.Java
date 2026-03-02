@@ -13,16 +13,21 @@ public class VectorOps {
         vector.add(value);
     }
 
-    private int len() { //helper function so private
+    private int len() {
         return vector.size();
     }
 
-//  From  here obj is second vector
-
-    public VectorOps add(VectorOps obj) throws VectorException {
+    //check length
+    public void checkLength(VectorOps obj) throws VectorException {
         if (this.len() != obj.len()) {
-            throw new VectorException("Vector lengths are not equal. Cannot perform addition.");
+            throw new VectorException("Vector lengths are not equal.");
         }
+    }
+
+
+    //add func
+    public VectorOps add(VectorOps obj) throws VectorException {
+        checkLength(obj);
 
         VectorOps result = new VectorOps();
         for (int i = 0; i < this.len(); i++) {
@@ -31,10 +36,9 @@ public class VectorOps {
         return result;
     }
 
+    //subtract func
     public VectorOps diff(VectorOps obj) throws VectorException {
-        if (this.len() != obj.len()) {
-            throw new VectorException("Vector lengths are not equal. Cannot perform subtraction.");
-        }
+        checkLength(obj);
 
         VectorOps result = new VectorOps();
         for (int i = 0; i < this.len(); i++) {
@@ -43,10 +47,9 @@ public class VectorOps {
         return result;
     }
 
+    //dot prod
     public double dot(VectorOps obj) throws VectorException {
-        if (this.len() != obj.len()) {
-            throw new VectorException("Vector lengths are not equal. Cannot perform dot product.");
-        }
+        checkLength(obj);
 
         double sum = 0;
         for (int i = 0; i < this.len(); i++) {

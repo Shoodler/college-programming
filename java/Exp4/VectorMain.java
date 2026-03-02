@@ -49,35 +49,29 @@ public class VectorMain {
 
         Scanner sc = new Scanner(System.in);
 
-        // Input vectors separately
         VectorOps v1 = inputVector(sc, "Vector 1");
         VectorOps v2 = inputVector(sc, "Vector 2");
 
-        // Try vector operations separately
         try {
+            // Check length BEFORE calling any operations
+            v1.checkLength(v2);
+
+            // If no exception → safe to proceed
             VectorOps sum = v1.add(v2);
+            VectorOps difference = v1.diff(v2);
+            double dotProduct = v1.dot(v2);
+
             System.out.print("Addition Result: ");
             sum.display();
-        } 
-        catch (VectorException ve) {
-            System.out.println("Addition Error: " + ve.getMessage());
-        }
 
-        try {
-            VectorOps difference = v1.diff(v2);
             System.out.print("Subtraction Result: ");
             difference.display();
-        } 
-        catch (VectorException ve) {
-            System.out.println("Subtraction Error: " + ve.getMessage());
-        }
 
-        try {
-            double dotProduct = v1.dot(v2);
             System.out.println("Dot Product: " + dotProduct);
         } 
         catch (VectorException ve) {
-            System.out.println("Dot Product Error: " + ve.getMessage());
+            System.out.println("Vector Error: " + ve.getMessage());
+            System.out.println("Operations aborted due to dimension mismatch.");
         }
 
         sc.close();
