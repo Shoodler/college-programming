@@ -53,10 +53,9 @@ public class VectorMain {
         VectorOps v2 = inputVector(sc, "Vector 2");
 
         try {
-            // Check length BEFORE calling any operations
+            // Check length for errors.
             v1.checkLength(v2);
 
-            // If no exception → safe to proceed
             VectorOps sum = v1.add(v2);
             VectorOps difference = v1.diff(v2);
             double dotProduct = v1.dot(v2);
