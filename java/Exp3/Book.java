@@ -24,13 +24,19 @@ public class Book{
         this.author = author;
     }
 
-    Book(String title, double price){
+    Book(String title, double price) throws InvalidPriceException {
         this(title);
+        if(price < 0){
+            throw new InvalidPriceException("Price cannot be negative!");
+        }
         this.price = price;
     }
 
-    Book(String title, String author, String genre, double price){
+    Book(String title, String author, String genre, double price) throws InvalidPriceException {
         this();
+        if(price < 0){
+            throw new InvalidPriceException("Price cannot be negative!");
+        }
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -45,12 +51,20 @@ public class Book{
         this.price = copier.price;
     }
 
-    // Getter methods
+    public double getPrice(){
+        return price;
+    }
+
+    public String getGenre(){
+        return genre;
+    }
+
     public void displayAll(){
-        System.out.println("title: " + title);
-        System.out.println("author: " + author);
-        System.out.println("genre: " + genre);
-        System.out.println("id: " + id);
-        System.out.println("price: " + price);
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("Genre: " + genre);
+        System.out.println("ID: " + id);
+        System.out.println("Price: " + price);
+        System.out.println("----------------------");
     }
 }
