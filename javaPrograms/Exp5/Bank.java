@@ -1,9 +1,8 @@
+import java.util.ArrayList;
+
 interface Loan {
     void createLoan(double amount);
 }
-
-
-
 
 class Customer {
     private final int custID;
@@ -23,16 +22,33 @@ class Customer {
     }
 }
 
+class Transactions {
+    static int idCounter = 1000; // Static counter for auto-incrementing IDs
+    int transID;
+    String accNum;
+    String type;   
+    double amount;
+    String date;   
 
+    Transactions(String acc, String t, double amt, String d) {
+        this.transID = idCounter++; 
+        this.accNum = acc;
+        this.type = t;
+        this.amount = amt;
+        this.date = d;
+    }
 
-
-
-
+    void showTransaction() {
+        System.out.println(transID + " | " + type + " | " + amount + " | " + accNum + " | " + date);
+    }
+}
 
 abstract class Account {
     protected int custID; 
     protected String accNum;
     protected double balance;
+    
+    protected ArrayList<Transactions> history = new ArrayList<>();
 
     public Account(Customer customer, String accNum, double startingBalance) {
         this.custID = customer.getCustID(); 
@@ -40,51 +56,55 @@ abstract class Account {
         this.balance = startingBalance;
     }
 
-    public abstract void deposit(double amount);
-
-    public abstract void withdraw(double amount) throws InsufficientFundsException;
-    
-    public double getBalance() {
-        return balance;
+    protected void addLog(String type, double amt) {
+        history.add(new Transactions(this.accNum, type, amt, "2026-04-06"));
     }
+
+    public abstract void deposit(double amount) throws InvalidAmountException;
+    public abstract void withdraw(double amount) throws InsufficientFundsException, InvalidAmountException;
+    
+    public void showHistory() {
+        System.out.println("--- Transaction History for " + accNum + " ---");
+        for (Transactions t : history) {
+            t.showTransaction();
+        }
+    }
+
+    public double getBalance() { return balance; }
 }
 
-
-
-
-
-
 class SavingsAccount extends Account implements Loan {
-    
     public SavingsAccount(Customer customer, String accNum, double startingBalance) {
         super(customer, accNum, startingBalance);
     }
 
     @Override
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
+    public void deposit(double amount) throws InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Deposit amount must be positive.");
         }
+        balance += amount;
+        addLog("Deposit", amount);
     }
-
+    
     @Override
-    public void withdraw(double amount) throws InsufficientFundsException {
+    public void withdraw(double amount) throws InsufficientFundsException, InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Withdrawal amount must be positive.");
+        }
         if (amount > balance) {
-            throw new InsufficientFundsException("Withdrawal failed: Insufficient funds in Savings Account.");
+            throw new InsufficientFundsException("Insufficient funds.");
         }
         balance -= amount;
+        addLog("Withdrawal", amount);
     }
 
     @Override
     public void createLoan(double amount) {
-        System.out.println("Processing new loan of Rs." + amount + " tied to Savings Account: " + accNum);
+        addLog("Loan Issued", amount);
+        System.out.println("Loan of " + amount + " processed.");
     }
-} 
-
-
-
-
-
+}
 
 class CurrentAccount extends Account implements Loan {
     private double overdraftLimit = 50000.0; 
@@ -94,30 +114,31 @@ class CurrentAccount extends Account implements Loan {
     }
 
     @Override
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
+    public void deposit(double amount) throws InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Deposit amount must be positive.");
         }
+        balance += amount;
+        addLog("Deposit", amount);
     }
 
     @Override
-    public void withdraw(double amount) throws InsufficientFundsException {
-        if (amount > (balance + overdraftLimit)) {
-            throw new InsufficientFundsException("Withdrawal failed: Overdraft limit exceeded in Current Account.");
+    public void withdraw(double amount) throws InsufficientFundsException, InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Withdrawal amount must be positive.");
         }
-        balance -= amount; 
+        if (amount > balance) {
+            throw new InsufficientFundsException("Insufficient funds.");
+        }
+        balance -= amount;
+        addLog("Withdrawal", amount);
     }
 
     @Override
     public void createLoan(double amount) {
-        System.out.println("Processing new business loan of Rs." + amount + " tied to Current Account: " + accNum);
+        addLog("Business Loan", amount);
     }
 }
-
-
-
-
-
 
 class SalaryAccount extends Account {
     public SalaryAccount(Customer customer, String accNum, double startingBalance) {
@@ -125,18 +146,23 @@ class SalaryAccount extends Account {
     }
 
     @Override
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
+    public void deposit(double amount) throws InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Deposit amount must be positive.");
         }
+        balance += amount;
+        addLog("Deposit", amount);
     }
 
     @Override
-    public void withdraw(double amount) throws InsufficientFundsException {
-        // Salary: Cannot withdraw more than current balance
+    public void withdraw(double amount) throws InsufficientFundsException, InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Withdrawal amount must be positive.");
+        }
         if (amount > balance) {
-            throw new InsufficientFundsException("Withdrawal failed: Insufficient funds in Salary Account.");
+            throw new InsufficientFundsException("Insufficient funds.");
         }
         balance -= amount;
+        addLog("Withdrawal", amount);
     }
 }
